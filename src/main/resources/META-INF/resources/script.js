@@ -1,5 +1,6 @@
 const URL = 'http://localhost:8080';
 let entries = [];
+let jwt;
 
 const dateAndTimeToDate = (dateString, timeString) => {
     return new Date(`${dateString}T${timeString}`).toISOString();
@@ -15,7 +16,8 @@ const createEntry = (e) => {
     fetch(`${URL}/entries`, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization' : 'Bearer: ' + jwt
         },
         body: JSON.stringify(entry)
     }).then((result) => {
@@ -32,6 +34,9 @@ function deleteEntry(id) {
 
     const response = fetch( `${URL}/entries/${id}`, {
         method: 'DELETE',
+        headers: {
+            'Authorization' : 'Bearer: ' + jwt
+        }
     }).then((result) => {
         indexEntries();
     })
@@ -48,7 +53,8 @@ const updateEntry = (e) => {
     fetch(`${URL}/entries`, {
         method: 'PUT',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization' : 'Bearer: ' + jwt
         },
         body: JSON.stringify(entry)
     }).then((result) => {
@@ -58,7 +64,10 @@ const updateEntry = (e) => {
 
 const indexEntries = () => {
     fetch(`${URL}/entries`, {
-        method: 'GET'
+        method: 'GET',
+        headers: {
+            'Authorization' : 'Bearer: ' + jwt
+        }
     }).then((result) => {
         result.json().then((result) => {
             entries = result;
@@ -73,6 +82,8 @@ const createCell = (text) => {
     cell.innerText = text;
     return cell;
 };
+
+
 
 const renderEntries = () => {
     const display = document.querySelector('#entryDisplay');
@@ -91,14 +102,78 @@ const renderEntries = () => {
     });
 };
 
+function hideLogin(){
+    document.getElementById("loginpage").style.display = "none";
+    document.getElementById("mainpage").style.display = "block";
+    indexEntries();
+}
+
+function hideMainPage(){
+    document.getElementById("mainpage").style.display = "none"
+    document.getElementById("loginpage").style.display = "block";
+}
+
+async function validate () {
+
+        const formData = new FormData(document.getElementById("login"));
+
+        let loginViewModel = {};
+
+        loginViewModel['email'] = formData.get("email");
+        loginViewModel['password'] = formData.get("password");
+
+        const response = await fetch(`${URL}/auth/login`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(loginViewModel)
+        });
+
+        jwt = await response.text();
+
+        jwt = jwt.slice(10, jwt.length - 2);
+
+        console.log(jwt)
+
+        if (jwt != null) {
+            await hideLogin();
+        }else {
+            const errorMsg = document.createElement("p");
+
+            errorMsg.innerText = "Ungültige Anmeldeinformationen";
+            errorMsg.style.color = "red";
+
+            document.getElementById("login").append(errorMsg);
+        }
+
+}
+
+async function registerUser(){
+    const formData = new FormData(document.getElementById("signUp"));
+
+    let user = {};
+
+    user['firstname'] = formData.get("firstname");
+    user['lastname'] = formData.get("lastname");
+    user['email'] = formData.get("emailSignUp");
+    user['password'] = formData.get("password");
+
+    console.log(user)
+
+    const response = await fetch( `${URL}/auth/signUp`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(user)
+    });
+}
+
 document.addEventListener('DOMContentLoaded', function(){
     const createEntryForm = document.querySelector('#createEntryForm');
     createEntryForm.addEventListener('submit', createEntry);
-    indexEntries();
+    hideMainPage();
 });
 
-document.addEventListener('DOMContentLoaded', function(){
-    const createEntryForm = document.querySelector('#updateEntryForm');
-    createEntryForm.addEventListener('submit',updateEntry );
-    indexEntries();
-});
+

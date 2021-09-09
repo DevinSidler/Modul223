@@ -2,6 +2,7 @@ package ch.zli.m223.punchclock.controller;
 
 import java.util.List;
 
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -12,6 +13,7 @@ import org.jboss.resteasy.annotations.jaxrs.PathParam;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
 @Path("/activities")
+//@RolesAllowed({ "User" })
 @Tag(name = "Activities", description = "Handling of activities")
 public class ActivityController {
 

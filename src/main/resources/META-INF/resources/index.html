@@ -10,6 +10,30 @@
         <script src="script.js" type="application/javascript"></script>
     </head>
     <body>
+        <div id="loginpage">
+            <h2>Login</h2>
+            <form id="login" method="post" name="login">
+                <label>E-Mail :</label>
+                <input type="email" name="email" id="email"/>
+                <label>Password :</label>
+                <input type="password" name="password" id="password"/>
+                <input type="button" value="Login" onclick="validate()"/>
+            </form>
+
+            <h2>Sign Up</h2>
+            <form id="signUp" method="post" name="signUp">
+                <label>Fistname :</label>
+                <input type="text" name="firstname" id="firstname"/>
+                <label>Lastname :</label>
+                <input type="text" name="lastname" id="lastname"/>
+                <label>E-Mail :</label>
+                <input type="email" name="emailSignUp" id="emailSignUp"/>
+                <label>Password :</label>
+                <input type="password" name="password" id="passwordSignUp"/>
+                <input type="button" value="SignUp" onclick="registerUser()"/>
+            </form>
+        </div>
+        <div id="mainpage">
         <h3>Create Entry</h3>
         <form id="createEntryForm">
             <label for="checkIn">Check in</label>
@@ -46,5 +70,6 @@
                 </tr>
             </tbody>
         </table>
+        </div>
     </body>
 </html>

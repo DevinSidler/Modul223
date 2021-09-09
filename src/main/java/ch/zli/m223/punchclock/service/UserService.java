@@ -46,4 +46,15 @@ public class UserService {
         entityManager.merge(user);
     }
 
+    @Transactional
+    public User getUserByEmailPassword(String email, String password){
+
+        var query = entityManager.createQuery("FROM User WHERE email = :email AND password = :password ");
+        query.setParameter("email", email);
+        query.setParameter("password", password);
+
+        return (User) query.getSingleResult();
+
+    }
+
 }
