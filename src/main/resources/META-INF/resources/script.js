@@ -1,6 +1,7 @@
 const URL = 'http://localhost:8080';
 let entries = [];
-let jwt;
+let users = [];
+let activities = [];
 
 const dateAndTimeToDate = (dateString, timeString) => {
     return new Date(`${dateString}T${timeString}`).toISOString();
@@ -17,7 +18,7 @@ const createEntry = (e) => {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization' : 'Bearer ' + jwt
+            'Authorization' : 'Bearer ' + localStorage.getItem('token')
         },
         body: JSON.stringify(entry)
     }).then((result) => {
@@ -30,12 +31,10 @@ const createEntry = (e) => {
 
 function deleteEntry(id) {
 
-    console.log(id)
-
     const response = fetch( `${URL}/entries/${id}`, {
         method: 'DELETE',
         headers: {
-            'Authorization' : 'Bearer ' + jwt
+            'Authorization' : 'Bearer ' + localStorage.getItem('token')
         }
     }).then((result) => {
         indexEntries();
@@ -54,7 +53,7 @@ const updateEntry = (e) => {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization' : 'Bearer ' + jwt
+            'Authorization' : 'Bearer ' + localStorage.getItem('token')
         },
         body: JSON.stringify(entry)
     }).then((result) => {
@@ -66,7 +65,7 @@ const indexEntries = () => {
     fetch(`${URL}/entries`, {
         method: 'GET',
         headers: {
-            'Authorization' : 'Bearer ' + jwt
+            'Authorization' : 'Bearer ' + localStorage.getItem('token')
         }
     }).then((result) => {
         result.json().then((result) => {
@@ -76,14 +75,6 @@ const indexEntries = () => {
     });
     renderEntries();
 };
-
-const createCell = (text) => {
-    const cell = document.createElement('td');
-    cell.innerText = text;
-    return cell;
-};
-
-
 
 const renderEntries = () => {
     const display = document.querySelector('#entryDisplay');
@@ -102,10 +93,195 @@ const renderEntries = () => {
     });
 };
 
+const createUser = (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const user = {};
+    user['firstname'] = formData.get("firstnameCreate");
+    user['lastname'] = formData.get("lastnameCreate");
+    user['email'] = formData.get("emailCreate");
+    user['password'] = formData.get("passwordCreate");
+
+    fetch(`${URL}/users`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization' : 'Bearer ' + localStorage.getItem('token')
+        },
+        body: JSON.stringify(user)
+    }).then((result) => {
+        result.json().then((user) => {
+            users.push(user);
+            renderUsers()
+        });
+    });
+};
+
+function deleteUser(id) {
+
+    const response = fetch( `${URL}/users/${id}`, {
+        method: 'DELETE',
+        headers: {
+            'Authorization' : 'Bearer ' + localStorage.getItem('token')
+        }
+    }).then((result) => {
+        indexUsers();
+    })
+
+}
+
+const updateUser = (e) => {
+    const formData = new FormData(e.target);
+    const user = {};
+    user['id'] = formData.get("idUpdate")
+    user['firstname'] = formData.get("firstnameUpdate");
+    user['lastname'] = formData.get("lastnameUpdate");
+    user['email'] = formData.get("emailUpdate");
+    user['password'] = formData.get("passwordUpdate");
+
+    fetch(`${URL}/users`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization' : 'Bearer ' + localStorage.getItem('token')
+        },
+        body: JSON.stringify(user)
+    }).then((result) => {
+        indexUsers();
+    });
+}
+
+const renderUsers = () =>{
+    const display = document.querySelector('#userDisplay');
+    display.innerHTML = '';
+
+    users.forEach((user) => {
+        const row = document.createElement('tr');
+        const button = document.createElement('button');
+        button.innerHTML = "Delete";
+        button.id = user.id;
+        button.onclick = function () { deleteUser(this.id) };
+        row.appendChild(createCell(user.id));
+        row.appendChild(createCell(user.firstname));
+        row.appendChild(createCell(user.lastname));
+        row.appendChild(createCell(user.email));
+        row.appendChild(button)
+        display.appendChild(row);
+    })
+}
+
+const indexUsers = () => {
+    fetch(`${URL}/users`, {
+        method: 'GET',
+        headers: {
+            'Authorization' : 'Bearer ' + localStorage.getItem('token')
+        }
+    }).then((result) => {
+        result.json().then((result) => {
+            users = result;
+            renderUsers();
+        });
+    });
+    renderUsers();
+};
+
+
+
+
+
+const createActivity = (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const activity = {};
+    activity['name'] = formData.get("createActivityName");
+
+    fetch(`${URL}/activities`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization' : 'Bearer ' + localStorage.getItem('token')
+        },
+        body: JSON.stringify(activity)
+    }).then((result) => {
+        result.json().then((activity) => {
+            activities.push(activity);
+            renderActivities()
+        });
+    });
+};
+
+function deleteActivity(id) {
+
+    const response = fetch( `${URL}/activities/${id}`, {
+        method: 'DELETE',
+        headers: {
+            'Authorization' : 'Bearer ' + localStorage.getItem('token')
+        }
+    }).then((result) => {
+        indexActivities();
+    })
+
+}
+
+const updateActivity = (e) => {
+    const formData = new FormData(e.target);
+    const activity = {};
+    activity['id'] = formData.get("idActivityUpdate")
+    activity['name'] = formData.get("activityNameUpdate");
+
+    fetch(`${URL}/activities`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization' : 'Bearer ' + localStorage.getItem('token')
+        },
+        body: JSON.stringify(activity)
+    }).then((result) => {
+        indexActivities();
+    });
+}
+
+const renderActivities = () =>{
+    const display = document.querySelector('#activityDisplay');
+    display.innerHTML = '';
+
+    activities.forEach((activity) => {
+        const row = document.createElement('tr');
+        const button = document.createElement('button');
+        button.innerHTML = "Delete";
+        button.id = activity.id;
+        button.onclick = function () { deleteActivity(this.id) };
+        row.appendChild(createCell(activity.id));
+        row.appendChild(createCell(activity.name));
+        row.appendChild(button)
+        display.appendChild(row);
+    })
+}
+
+const indexActivities = () => {
+    fetch(`${URL}/activities`, {
+        method: 'GET',
+        headers: {
+            'Authorization' : 'Bearer ' + localStorage.getItem('token')
+        }
+    }).then((result) => {
+        result.json().then((result) => {
+            activities = result;
+            renderActivities();
+        });
+    });
+    renderActivities();
+};
+
+
+
+
 function hideLogin(){
     document.getElementById("loginpage").style.display = "none";
     document.getElementById("mainpage").style.display = "block";
     indexEntries();
+    indexUsers();
+    indexActivities();
 }
 
 function hideMainPage(){
@@ -117,6 +293,7 @@ async function validate () {
 
         const formData = new FormData(document.getElementById("login"));
 
+        let jwt;
         let loginViewModel = {};
 
         loginViewModel['email'] = formData.get("email");
@@ -134,7 +311,7 @@ async function validate () {
 
         if (jwt != null) {
 
-            jwt = jwt.token;
+            localStorage.setItem('token',jwt.token)
             await hideLogin();
 
         }
@@ -151,8 +328,6 @@ async function registerUser(){
     user['email'] = formData.get("emailSignUp");
     user['password'] = formData.get("password");
 
-    console.log(user)
-
     const response = await fetch( `${URL}/auth/signUp`, {
         method: 'POST',
         headers: {
@@ -163,14 +338,43 @@ async function registerUser(){
 }
 
 function logout(){
-    jwt = null;
+    localStorage.clear()
     hideMainPage();
 }
+
+const createCell = (text) => {
+    const cell = document.createElement('td');
+    cell.innerText = text;
+    return cell;
+};
 
 document.addEventListener('DOMContentLoaded', function(){
     const createEntryForm = document.querySelector('#createEntryForm');
     createEntryForm.addEventListener('submit', createEntry);
-    hideMainPage()
+
+    const createUserForm = document.querySelector('#createUser')
+    createUserForm.addEventListener('submit',createUser)
+
+    const createActivityForm = document.querySelector('#createActivity')
+    createActivityForm.addEventListener('submit',createActivity)
+
+    const updateEntryForm = document.querySelector('#updateEntryForm')
+    updateEntryForm.addEventListener('submit', updateEntry)
+
+    const updateUserForm = document.querySelector('#updateUser')
+    updateUserForm.addEventListener('submit', updateUser)
+
+    const updateActivityForm = document.querySelector('#updateActivity')
+    updateActivityForm.addEventListener('submit', updateActivity)
+
+
+
+    if (localStorage.getItem('token') == null){
+        hideMainPage()
+    }else {
+        hideLogin()
+    }
+
 });
 
 

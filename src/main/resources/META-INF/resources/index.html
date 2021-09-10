@@ -8,6 +8,8 @@
         <title>Punchclock Client</title>
         <link rel="stylesheet" type="text/css" href="style.css" />
         <script src="script.js" type="application/javascript"></script>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     </head>
     <body>
         <div id="loginpage">
@@ -35,6 +37,83 @@
         </div>
         <div id="mainpage">
             <button id="logoutButton" onclick="logout()" >Logout</button>
+
+            <h3>Create User</h3>
+            <form id="createUser">
+                <label for="firstnameCreate">Firstname</label>
+                <input type="text" name="firstnameCreate" id="firstnameCreate" required>
+                <label for="lastnameCreate">Lastname</label>
+                <input type="text" name="lastnameCreate" id="lastnameCreate" required>
+                <label for="emailCreate">E-Mail</label>
+                <input type="email" name="emailCreate" id="emailCreate" required>
+                <label for="passwordCreate">Password</label>
+                <input type="password" name="passwordCreate" id="passwordCreate" required>
+                <input type="submit" value="Create User" />
+            </form>
+
+            <h3>Update User</h3>
+            <form id="updateUser">
+                <label for="idUpdate">ID</label>
+                <input type="number" name="idUpdate" id="idUpdate" required>
+                <label for="firstnameCreate">Firstname</label>
+                <input type="text" name="firstnameUpdate" id="firstnameUpdate" required>
+                <label for="lastnameCreate">Lastname</label>
+                <input type="text" name="lastnameUpdate" id="lastnameUpdate" required>
+                <label for="emailCreate">E-Mail</label>
+                <input type="email" name="emailUpdate" id="emailUpdate" required>
+                <label for="passwordCreate">Password</label>
+                <input type="password" name="passwordUpdate" id="passwordUpdate" required>
+                <input type="submit" value="Update User" />
+            </form>
+
+            <table>
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Fistname</th>
+                    <th>Lastname</th>
+                    <th>E-Mail</th>
+                </tr>
+                </thead>
+                <tbody id="userDisplay">
+                <tr>
+                    <td colspan="3">Loading...</td>
+                </tr>
+                </tbody>
+            </table>
+
+
+            <h3>Create Activity</h3>
+            <form id="createActivity">
+                <label for="createActivityName">Name</label>
+                <input type="text" name="createActivityName" id="createActivityName" required>
+                <input type="submit" value="Create Activity" />
+            </form>
+
+            <h3>Update Activity</h3>
+            <form id="updateActivity">
+                <label for="idActivityUpdate">ID</label>
+                <input type="number" name="idActivityUpdate" id="idActivityUpdate" required>
+                <label for="activityNameUpdate">Name</label>
+                <input type="text" name="activityNameUpdate" id="activityNameUpdate" required>
+                <input type="submit" value="Update Activity" />
+            </form>
+
+            <table>
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                </tr>
+                </thead>
+                <tbody id="activityDisplay">
+                <tr>
+                    <td colspan="3">Loading...</td>
+                </tr>
+                </tbody>
+            </table>
+
+
         <h3>Create Entry</h3>
         <form id="createEntryForm">
             <label for="checkIn">Check in</label>
@@ -45,6 +124,7 @@
             <input type="time" name="checkOutTime" required>
             <input type="submit" value="Save" />
         </form>
+
         <h3>Update Entry</h3>
         <form id="updateEntryForm">
             <label for="id">ID</label>
@@ -57,6 +137,7 @@
             <input type="time" name="checkOutTimeUpdate" required>
             <input type="submit" value="Update">
         </form>
+
         <table>
             <thead>
                 <tr>
@@ -71,6 +152,7 @@
                 </tr>
             </tbody>
         </table>
+
         </div>
     </body>
 </html>

@@ -34,6 +34,11 @@ public class AuthentificationController {
     @Inject
     UserService userService;
 
+    /**
+     * Checks if User is Valid to login
+     * @param loginViewModel loginViewModel to check Login
+     * @return returns a JWT
+     */
     @POST
     @Path("/login")
     @Produces(MediaType.APPLICATION_JSON)
@@ -58,6 +63,10 @@ public class AuthentificationController {
             throw new NotAuthorizedException("User [" + loginViewModel.getEmail() + "] not known");
     }
 
+    /**
+     * Creates a new user
+     * @param user user to create a new User
+     */
     @POST
     @Path("/signUp")
     @Consumes(MediaType.APPLICATION_JSON)
