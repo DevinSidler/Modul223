@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 
 import javax.inject.Inject;
+import javax.persistence.NoResultException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.POST;
@@ -38,19 +39,23 @@ public class AuthentificationController {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public LoginResultViewModel login(LoginViewModel loginViewModel){
-
-        User user = userService.getUserByEmailPassword(loginViewModel.getEmail(), loginViewModel.getPassword());
-
-        if(loginViewModel.getEmail().equals(user.getEmail()) && loginViewModel.getPassword().equals(user.getPassword())){
-            String token =
-                    Jwt.issuer("https://zli.ch/issuer")
-                            .upn("user@zli.ch")
-                            .groups(new HashSet<>(Arrays.asList("User")))
-                            .expiresIn(Duration.ofHours(1))
-                            .sign();
-            return new LoginResultViewModel(token);
+        User user;
+        try {
+             user = userService.getUserByEmailPassword(loginViewModel.getEmail(), loginViewModel.getPassword());
+        }catch (NoResultException noResultException){
+             user = new User();
         }
-        throw new NotAuthorizedException("User ["+loginViewModel.getEmail()+"] not known");
+
+            if (loginViewModel.getEmail().equals(user.getEmail()) && loginViewModel.getPassword().equals(user.getPassword())) {
+                String token =
+                        Jwt.issuer("https://zli.ch/issuer")
+                                .upn("user@zli.ch")
+                                .groups(new HashSet<>(Arrays.asList("User")))
+                                .expiresIn(Duration.ofHours(1))
+                                .sign();
+                return new LoginResultViewModel(token);
+            }
+            throw new NotAuthorizedException("User [" + loginViewModel.getEmail() + "] not known");
     }
 
     @POST

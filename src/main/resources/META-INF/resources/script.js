@@ -17,7 +17,7 @@ const createEntry = (e) => {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization' : 'Bearer: ' + jwt
+            'Authorization' : 'Bearer ' + jwt
         },
         body: JSON.stringify(entry)
     }).then((result) => {
@@ -35,7 +35,7 @@ function deleteEntry(id) {
     const response = fetch( `${URL}/entries/${id}`, {
         method: 'DELETE',
         headers: {
-            'Authorization' : 'Bearer: ' + jwt
+            'Authorization' : 'Bearer ' + jwt
         }
     }).then((result) => {
         indexEntries();
@@ -54,7 +54,7 @@ const updateEntry = (e) => {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization' : 'Bearer: ' + jwt
+            'Authorization' : 'Bearer ' + jwt
         },
         body: JSON.stringify(entry)
     }).then((result) => {
@@ -66,7 +66,7 @@ const indexEntries = () => {
     fetch(`${URL}/entries`, {
         method: 'GET',
         headers: {
-            'Authorization' : 'Bearer: ' + jwt
+            'Authorization' : 'Bearer ' + jwt
         }
     }).then((result) => {
         result.json().then((result) => {
@@ -130,21 +130,15 @@ async function validate () {
             body: JSON.stringify(loginViewModel)
         });
 
-        jwt = await response.text();
-
-        jwt = jwt.slice(10, jwt.length - 2);
+        jwt = await response.json();
 
         console.log(jwt)
 
         if (jwt != null) {
+
+            jwt = jwt.token;
             await hideLogin();
-        }else {
-            const errorMsg = document.createElement("p");
 
-            errorMsg.innerText = "Ungültige Anmeldeinformationen";
-            errorMsg.style.color = "red";
-
-            document.getElementById("login").append(errorMsg);
         }
 
 }
