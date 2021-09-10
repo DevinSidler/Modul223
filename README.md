@@ -15,7 +15,9 @@ Die Applikation kann man starten, indem man Folgendes in der Konsole ausführt:
 Anschliessend muss man die Seite http://localhost:8080 aufrufen um zum Frontend der 
 Applikation zu gelangen.
 
-
+#SQL
 Es werden einige Standarddaten für das Frontend vom import.sql geladen.
 Der Standarduser hat die E-Mail "test@test.com" und das Passwort "123".
 
+Veränderungen zum Frontend:
+SecuredController gelöscht

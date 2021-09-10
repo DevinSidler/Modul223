@@ -302,15 +302,10 @@ const renderSpecial = () =>{
 
     special.forEach((spec) => {
         const row = document.createElement('tr');
-        const button = document.createElement('button');
-        button.innerHTML = "Delete";
-        button.id = spec.id;
-        button.onclick = function () { deleteUser(this.id) };
         row.appendChild(createCell(spec.id));
         row.appendChild(createCell(spec.firstname));
         row.appendChild(createCell(spec.lastname));
         row.appendChild(createCell(spec.email));
-        row.appendChild(button)
         display.appendChild(row);
     })
 }
