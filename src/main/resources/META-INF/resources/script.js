@@ -132,8 +132,6 @@ async function validate () {
 
         jwt = await response.json();
 
-        console.log(jwt)
-
         if (jwt != null) {
 
             jwt = jwt.token;
@@ -164,10 +162,15 @@ async function registerUser(){
     });
 }
 
+function logout(){
+    jwt = null;
+    hideMainPage();
+}
+
 document.addEventListener('DOMContentLoaded', function(){
     const createEntryForm = document.querySelector('#createEntryForm');
     createEntryForm.addEventListener('submit', createEntry);
-    hideMainPage();
+    hideMainPage()
 });
 
 
