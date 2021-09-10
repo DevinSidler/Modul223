@@ -21,3 +21,8 @@ Der Standarduser hat die E-Mail "test@test.com" und das Passwort "123".
 
 Veränderungen zum Frontend:
 SecuredController gelöscht
+
+#Git
+
+GitHub Repository: https://github.com/DevinSidler/Modul223
+GitLog File: gitlog.txt
