@@ -19,6 +19,7 @@ Applikation zu gelangen.
 Es werden einige Standarddaten für das Frontend vom import.sql geladen.
 Der Standarduser hat die E-Mail "test@test.com" und das Passwort "123".
 
+#Veränderungen
 Veränderungen zum Frontend:
 SecuredController gelöscht
 
