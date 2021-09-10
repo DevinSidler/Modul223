@@ -31,6 +31,15 @@ public class UserController {
     }
 
     /**
+     * Special Query for User with Name Length > 4
+     * @return returns list of Users
+     */
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/special")
+    public List<User> specialUser(){return userService.specialQuery();}
+
+    /**
      * creates new user
      * @param user user to create new user
      * @return returns a user

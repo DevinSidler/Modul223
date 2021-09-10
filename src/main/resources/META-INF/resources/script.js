@@ -2,6 +2,7 @@ const URL = 'http://localhost:8080';
 let entries = [];
 let users = [];
 let activities = [];
+let special = [];
 
 const dateAndTimeToDate = (dateString, timeString) => {
     return new Date(`${dateString}T${timeString}`).toISOString();
@@ -85,6 +86,8 @@ const renderEntries = () => {
         button.innerHTML = "Delete";
         button.id = entry.id;
         button.onclick = function () { deleteEntry(this.id) };
+        button.classList.add("btn")
+        button.classList.add("btn-danger")
         row.appendChild(createCell(entry.id));
         row.appendChild(createCell(new Date(entry.checkIn).toLocaleString()));
         row.appendChild(createCell(new Date(entry.checkOut).toLocaleString()));
@@ -161,6 +164,8 @@ const renderUsers = () =>{
         button.innerHTML = "Delete";
         button.id = user.id;
         button.onclick = function () { deleteUser(this.id) };
+        button.classList.add("btn")
+        button.classList.add("btn-danger")
         row.appendChild(createCell(user.id));
         row.appendChild(createCell(user.firstname));
         row.appendChild(createCell(user.lastname));
@@ -251,6 +256,8 @@ const renderActivities = () =>{
         button.innerHTML = "Delete";
         button.id = activity.id;
         button.onclick = function () { deleteActivity(this.id) };
+        button.classList.add("btn")
+        button.classList.add("btn-danger")
         row.appendChild(createCell(activity.id));
         row.appendChild(createCell(activity.name));
         row.appendChild(button)
@@ -274,6 +281,39 @@ const indexActivities = () => {
 };
 
 
+const indexSpecial = () => {
+    fetch(`${URL}/users/special`, {
+        method: 'GET',
+        headers: {
+            'Authorization' : 'Bearer ' + localStorage.getItem('token')
+        }
+    }).then((result) => {
+        result.json().then((result) => {
+            special = result;
+            renderSpecial();
+        });
+    });
+    renderSpecial();
+};
+
+const renderSpecial = () =>{
+    const display = document.querySelector('#specialDisplay');
+    display.innerHTML = '';
+
+    special.forEach((spec) => {
+        const row = document.createElement('tr');
+        const button = document.createElement('button');
+        button.innerHTML = "Delete";
+        button.id = spec.id;
+        button.onclick = function () { deleteUser(this.id) };
+        row.appendChild(createCell(spec.id));
+        row.appendChild(createCell(spec.firstname));
+        row.appendChild(createCell(spec.lastname));
+        row.appendChild(createCell(spec.email));
+        row.appendChild(button)
+        display.appendChild(row);
+    })
+}
 
 
 function hideLogin(){
@@ -282,6 +322,7 @@ function hideLogin(){
     indexEntries();
     indexUsers();
     indexActivities();
+    indexSpecial();
 }
 
 function hideMainPage(){

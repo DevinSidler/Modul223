@@ -10,6 +10,9 @@
         <script src="script.js" type="application/javascript"></script>
         <!-- Latest compiled and minified CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     </head>
     <body>
         <div id="loginpage">
@@ -19,7 +22,7 @@
                 <input type="email" name="email" id="email"/>
                 <label>Password :</label>
                 <input type="password" name="password" id="password"/>
-                <input type="button" value="Login" onclick="validate()"/>
+                <input type="button" value="Login" onclick="validate()" class="btn btn-success"/>
             </form>
 
             <h2>Sign Up</h2>
@@ -32,11 +35,11 @@
                 <input type="email" name="emailSignUp" id="emailSignUp"/>
                 <label>Password :</label>
                 <input type="password" name="password" id="passwordSignUp"/>
-                <input type="button" value="SignUp" onclick="registerUser()"/>
+                <input type="button" value="SignUp" onclick="registerUser()"  class="btn btn-success"/>
             </form>
         </div>
         <div id="mainpage">
-            <button id="logoutButton" onclick="logout()" >Logout</button>
+            <button id="logoutButton" onclick="logout()" class="btn btn-primary">Logout</button>
 
             <h3>Create User</h3>
             <form id="createUser">
@@ -48,7 +51,7 @@
                 <input type="email" name="emailCreate" id="emailCreate" required>
                 <label for="passwordCreate">Password</label>
                 <input type="password" name="passwordCreate" id="passwordCreate" required>
-                <input type="submit" value="Create User" />
+                <input type="submit" value="Create User"  class="btn btn-success" />
             </form>
 
             <h3>Update User</h3>
@@ -63,14 +66,15 @@
                 <input type="email" name="emailUpdate" id="emailUpdate" required>
                 <label for="passwordCreate">Password</label>
                 <input type="password" name="passwordUpdate" id="passwordUpdate" required>
-                <input type="submit" value="Update User" />
+                <input type="submit" value="Update User" class="btn btn-warning"/>
             </form>
 
+            <h4>User list</h4>
             <table>
                 <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Fistname</th>
+                    <th>Firstname</th>
                     <th>Lastname</th>
                     <th>E-Mail</th>
                 </tr>
@@ -82,12 +86,29 @@
                 </tbody>
             </table>
 
+            <h4>Special User List</h4>
+            <table>
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Firstname</th>
+                    <th>Lastname</th>
+                    <th>E-Mail</th>
+                </tr>
+                </thead>
+                <tbody id="specialDisplay">
+                <tr>
+                    <td colspan="3">Loading...</td>
+                </tr>
+                </tbody>
+            </table>
+
 
             <h3>Create Activity</h3>
             <form id="createActivity">
                 <label for="createActivityName">Name</label>
                 <input type="text" name="createActivityName" id="createActivityName" required>
-                <input type="submit" value="Create Activity" />
+                <input type="submit" value="Create Activity"  class="btn btn-success" />
             </form>
 
             <h3>Update Activity</h3>
@@ -96,7 +117,7 @@
                 <input type="number" name="idActivityUpdate" id="idActivityUpdate" required>
                 <label for="activityNameUpdate">Name</label>
                 <input type="text" name="activityNameUpdate" id="activityNameUpdate" required>
-                <input type="submit" value="Update Activity" />
+                <input type="submit" value="Update Activity" class="btn btn-warning"/>
             </form>
 
             <table>
@@ -122,7 +143,7 @@
             <label for="checkOut">Check out</label>
             <input type="date" name="checkOutDate" id="checkOut" required>
             <input type="time" name="checkOutTime" required>
-            <input type="submit" value="Save" />
+            <input type="submit" value="Save"  class="btn btn-success"/>
         </form>
 
         <h3>Update Entry</h3>
@@ -135,7 +156,7 @@
             <label for="checkOut">Check out</label>
             <input type="date" name="checkOutDateUpdate" id="checkOutUpdate" required>
             <input type="time" name="checkOutTimeUpdate" required>
-            <input type="submit" value="Update">
+            <input type="submit" value="Update" >
         </form>
 
         <table>

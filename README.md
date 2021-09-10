@@ -16,10 +16,6 @@ Anschliessend muss man die Seite http://localhost:8080 aufrufen um zum Frontend 
 Applikation zu gelangen.
 
 
-
-
-H2 Console: http://localhost:8080/h2/
-Datenquelle: jdbc:h2:mem:punchclock
-Benutzername: zli
-Passwort: zli
+Es werden einige Standarddaten für das Frontend vom import.sql geladen.
+Der Standarduser hat die E-Mail "test@test.com" und das Passwort "123".
 

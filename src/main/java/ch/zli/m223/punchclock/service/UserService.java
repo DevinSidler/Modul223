@@ -57,4 +57,10 @@ public class UserService {
 
     }
 
+    @Transactional
+    public List<User> specialQuery(){
+            var query = entityManager.createQuery("From User user GROUP BY user.firstname HAVING (LENGTH(user.firstname)) > 4");
+            return query.getResultList();
+    }
+
 }
